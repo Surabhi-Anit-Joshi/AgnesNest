@@ -1,0 +1,56 @@
+const lostFoundData = [
+  {
+    id: 1,
+    itemName: 'Blue Titan Watch',
+    image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80',
+    description: 'Found a blue dial Titan watch with a metal strap near the library. It has a small scratch on the glass.',
+    foundLocation: 'College Library, near 2nd floor stairs',
+    foundDate: '24 June 2026',
+    finderName: 'Ananya Shetty',
+    phone: '+91 9876543210',
+    email: 'ananya@stagnes.edu.in',
+    status: 'active', // active or resolved
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 2,
+    itemName: 'BCA 2nd Sem ID Card - Sarah',
+    image: 'https://images.unsplash.com/photo-1616440347437-b1c73416efc2?auto=format&fit=crop&w=800&q=80',
+    description: 'Found an ID card belonging to Sarah from BCA 2nd Semester. Found it in the college canteen near the juice counter.',
+    foundLocation: 'College Canteen',
+    foundDate: '25 June 2026',
+    finderName: 'Riya D\'Souza',
+    phone: '+91 8765432109',
+    email: 'riya@stagnes.edu.in',
+    status: 'active',
+    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 3,
+    itemName: 'Black Parker Pen',
+    image: 'https://images.unsplash.com/photo-1585336261022-680e295ce3fe?auto=format&fit=crop&w=800&q=80',
+    description: 'Found a black Parker fountain pen in room 104 after the morning Business Management lecture.',
+    foundLocation: 'Room 104, Commerce Block',
+    foundDate: '23 June 2026',
+    finderName: 'Kavya Pinto',
+    phone: '+91 7654321098',
+    email: 'kavya@stagnes.edu.in',
+    status: 'active',
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 4,
+    itemName: 'Spiral Notebook (Red Cover)',
+    image: 'https://images.unsplash.com/photo-1531346878377-3e6f9888d3e9?auto=format&fit=crop&w=800&q=80',
+    description: 'Found a red spiral notebook with notes on Java Programming. No name written on it.',
+    foundLocation: 'Computer Lab 2',
+    foundDate: '26 June 2026',
+    finderName: 'Neha Fernandes',
+    phone: '+91 6543210987',
+    email: 'neha@stagnes.edu.in',
+    status: 'active',
+    createdAt: new Date().toISOString(),
+  }
+];
+
+export default lostFoundData;

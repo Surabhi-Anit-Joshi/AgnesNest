@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brandNavy: #002B5B;
+  --color-brandMedium: #164A8A;
+  --color-brandAccent: #3E7BFA;
+  --color-brandBgSoft: #F7F9FC;
+  --color-brandTextSec: #636B7B;
+  --font-sans: 'Poppins', sans-serif;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+}
+
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+@utility glass-dropdown {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 43, 91, 0.08);
+}
+
+@utility shadow-soft {
+  box-shadow: 0 10px 30px rgba(0, 43, 91, 0.05);
+}
+
+@utility shadow-premium {
+  box-shadow: 0 20px 40px rgba(0, 43, 91, 0.08);
+}
+
+/* Custom scrollbar to make the site look premium */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c3c4ca;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a9b2;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  @apply bg-brandBgSoft font-sans text-brandNavy antialiased overflow-x-hidden w-full;
+  overflow-x: hidden;
+}
