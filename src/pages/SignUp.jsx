@@ -3,6 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { HiOutlinePhone, HiOutlineUser, HiOutlineMail, HiOutlineArrowLeft } from 'react-icons/hi';
 
+import { useAuth } from '../context/AuthContext';
+
 // Pixel-perfect SVG Indian Flag
 const IndianFlag = () => (
   <svg width="24" height="16" viewBox="0 0 3 2" className="rounded-sm shadow-sm select-none">
@@ -22,6 +24,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('jane@stagnes.edu.in');
   const [agreeTerms, setAgreeTerms] = useState(true);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -29,7 +32,11 @@ const SignUp = () => {
       alert('Please agree to the Terms & Conditions');
       return;
     }
-    // Simulate Signup and redirect to home
+    login({
+      name: `${firstName} ${lastName}`.trim(),
+      email,
+      phone: '+91 ' + phoneNumber,
+    });
     navigate('/');
   };
 

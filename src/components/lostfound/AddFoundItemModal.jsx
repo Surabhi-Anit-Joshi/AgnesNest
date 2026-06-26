@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineX, HiOutlinePhotograph, HiOutlineSparkles, HiCheckCircle } from 'react-icons/hi';
 import { useLostFound } from '../../context/LostFoundContext';
+import { useAuth } from '../../context/AuthContext';
 
 const FieldLabel = ({ children, required }) => (
   <label className="block text-[11px] font-bold text-brandNavy uppercase tracking-wider mb-1.5">
@@ -13,20 +14,29 @@ const inputCls = 'w-full text-sm text-brandNavy placeholder-brandTextSec/40 bg-b
 
 const AddFoundItemModal = ({ isOpen, onClose }) => {
   const { addItem } = useLostFound();
+  const { user } = useAuth();
   
   const [image, setImage] = useState('');
   const [itemName, setItemName] = useState('');
   const [description, setDescription] = useState('');
   const [foundLocation, setFoundLocation] = useState('');
   const [foundDate, setFoundDate] = useState('');
-  const [finderName, setFinderName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [finderName, setFinderName] = useState(user?.name || '');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [email, setEmail] = useState(user?.email || '');
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   
   const fileRef = useRef();
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setFinderName(user?.name || '');
+      setPhone(user?.phone || '');
+      setEmail(user?.email || '');
+    }
+  }, [isOpen, user]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -62,9 +72,10 @@ const AddFoundItemModal = ({ isOpen, onClose }) => {
         description: description.trim(),
         foundLocation: foundLocation.trim(),
         foundDate: foundDate.trim(),
-        finderName: finderName.trim(),
-        phone: phone.trim(),
-        email: email.trim(),
+        finderName: finderName.trim() || user?.name,
+        phone: phone.trim() || user?.phone,
+        email: email.trim() || user?.email,
+        userId: user?.id,
       });
 
       setSubmitting(false);
@@ -75,7 +86,7 @@ const AddFoundItemModal = ({ isOpen, onClose }) => {
 
   const resetForm = () => {
     setImage(''); setItemName(''); setDescription(''); setFoundLocation('');
-    setFoundDate(''); setFinderName(''); setPhone(''); setEmail(''); setErrors({});
+    setFoundDate(''); setFinderName(user?.name || ''); setPhone(user?.phone || ''); setEmail(user?.email || ''); setErrors({});
   };
 
   return (

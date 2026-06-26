@@ -326,13 +326,13 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Grid of Top-4 Highest Rated PGs */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Swipe Carousel on Mobile, Grid on Desktop */}
+            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-6 -mx-6 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 pb-4 sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {topPGs.map((pg) => (
                 <motion.div
                   key={pg.id}
                   whileHover={{ y: -6 }}
-                  className="bg-white rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
+                  className="min-w-[85%] sm:min-w-0 snap-center sm:snap-align-none bg-white rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
                 >
                   {/* PG Image & Badges */}
                   <div className="relative h-48 overflow-hidden group">
@@ -445,62 +445,62 @@ const Home = () => {
             </div>
 
             {/* Grid of 4 Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
               {marketplaceItems.map((item) => (
                 <motion.div
                   key={item.id}
                   whileHover={{ y: -6 }}
-                  className="bg-white rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
+                  className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
                 >
                   {/* Image & Tags */}
-                  <div className="relative h-48 overflow-hidden group">
+                  <div className="relative h-32 sm:h-48 overflow-hidden group">
                     <img 
                       src={item.image} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute top-3 left-3 bg-brandAccent/90 backdrop-blur-sm px-2.5 py-1 rounded-xl text-[10px] font-bold text-white uppercase">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-brandAccent/90 backdrop-blur-sm px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold text-white uppercase">
                       {item.category}
                     </div>
                   </div>
 
                   {/* Info */}
-                  <div className="p-6 flex flex-col justify-between flex-grow gap-4">
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-bold text-brandNavy text-base font-sans leading-snug line-clamp-1">
+                  <div className="p-3 sm:p-6 flex flex-col justify-between flex-grow gap-2 sm:gap-4">
+                    <div className="flex flex-col gap-1 sm:gap-2">
+                      <h3 className="font-bold text-brandNavy text-sm sm:text-base font-sans leading-snug line-clamp-2 sm:line-clamp-1">
                         {item.title}
                       </h3>
                       
                       {/* Price */}
-                      <span className="text-lg font-extrabold text-brandNavy font-mono">{item.price}</span>
+                      <span className="text-base sm:text-lg font-extrabold text-brandNavy font-mono">{item.price}</span>
                       
                       {/* Details */}
-                      <div className="flex flex-col gap-1 text-xs font-semibold text-brandTextSec mt-1">
-                        <p className="flex items-center gap-1.5 text-brandAccent">
-                          Condition: <span className="bg-brandAccent/10 px-2 py-0.5 rounded-lg text-[10px] uppercase font-bold">{item.condition}</span>
+                      <div className="flex flex-col gap-1 text-[10px] sm:text-xs font-semibold text-brandTextSec mt-0.5 sm:mt-1">
+                        <p className="flex items-center gap-1 sm:gap-1.5 text-brandAccent">
+                          Condition: <span className="bg-brandAccent/10 px-1.5 sm:px-2 py-0.5 rounded-md sm:rounded-lg text-[9px] sm:text-[10px] uppercase font-bold">{item.condition}</span>
                         </p>
-                        <p className="flex items-center gap-1 truncate text-[11px] mt-1">
-                          <HiOutlineLocationMarker /> {item.pickupLocation}
+                        <p className="flex items-center gap-1 truncate text-[10px] sm:text-[11px] mt-0.5 sm:mt-1">
+                          <HiOutlineLocationMarker className="flex-shrink-0" /> <span className="truncate">{item.pickupLocation}</span>
                         </p>
                       </div>
                     </div>
 
                     {/* Seller details & Action */}
-                    <div className="pt-4 border-t border-brandNavy/5 flex items-center justify-between gap-2">
-                      <div className="min-w-0">
+                    <div className="pt-2 sm:pt-4 border-t border-brandNavy/5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-1.5 sm:gap-2 mt-auto">
+                      <div className="min-w-0 hidden sm:block">
                         <span className="text-[10px] text-brandTextSec font-bold block uppercase tracking-wider">Seller</span>
                         <p className="text-xs font-bold text-brandNavy truncate">{item.seller}</p>
                       </div>
                       <button
                         onClick={() => handleCopyContact(item.id, '+91 6361079075')}
-                        className={`px-3 py-2 text-xs font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5 border flex-shrink-0 ${
+                        className={`w-full sm:w-auto px-2 sm:px-3 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold rounded-lg sm:rounded-xl transition-all duration-300 flex items-center justify-center gap-1 sm:gap-1.5 border flex-shrink-0 ${
                           copiedContact === item.id 
                             ? 'bg-green-500 border-green-500 text-white'
                             : 'bg-brandBgSoft hover:bg-brandNavy hover:text-white text-brandNavy border-brandNavy/5'
                         }`}
                       >
-                        <FiPhone />
-                        <span>{copiedContact === item.id ? 'Copied!' : 'Contact'}</span>
+                        <FiPhone className="flex-shrink-0" />
+                        <span>{copiedContact === item.id ? 'Copied' : 'Contact'}</span>
                       </button>
                     </div>
 
@@ -546,21 +546,21 @@ const Home = () => {
             </div>
 
             {/* Grid of 4 Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
               {lostFoundItems.map((item) => (
                 <motion.div
                   key={item.id}
                   whileHover={{ y: -6 }}
-                  className="bg-white rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
+                  className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-brandNavy/5 shadow-soft hover:shadow-premium transition-all duration-300 flex flex-col h-full text-left"
                 >
                   {/* Image & Type Badge */}
-                  <div className="relative h-48 overflow-hidden group">
+                  <div className="relative h-32 sm:h-48 overflow-hidden group">
                     <img 
                       src={item.image} 
                       alt={item.title} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className={`absolute top-3 left-3 px-3 py-1 rounded-xl text-[10px] font-bold text-white uppercase tracking-wider ${
+                    <div className={`absolute top-2 left-2 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md sm:rounded-xl text-[9px] sm:text-[10px] font-bold text-white uppercase tracking-wider ${
                       item.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'
                     }`}>
                       {item.type}
@@ -568,34 +568,34 @@ const Home = () => {
                   </div>
 
                   {/* Info */}
-                  <div className="p-6 flex flex-col justify-between flex-grow gap-4">
-                    <div className="flex flex-col gap-2">
-                      <h3 className="font-bold text-brandNavy text-base font-sans leading-snug line-clamp-1">
+                  <div className="p-3 sm:p-6 flex flex-col justify-between flex-grow gap-2 sm:gap-4">
+                    <div className="flex flex-col gap-1 sm:gap-2">
+                      <h3 className="font-bold text-brandNavy text-sm sm:text-base font-sans leading-snug line-clamp-2 sm:line-clamp-1">
                         {item.title}
                       </h3>
                       
-                      <div className="flex flex-col gap-1.5 text-xs text-brandTextSec font-semibold mt-1">
-                        <p className="flex items-center gap-1.5 truncate">
-                          <HiOutlineLocationMarker className="text-brandTextSec text-[13px]" />
-                          <span>Location: {item.location}</span>
+                      <div className="flex flex-col gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-brandTextSec font-semibold mt-1">
+                        <p className="flex items-center gap-1 sm:gap-1.5 truncate">
+                          <HiOutlineLocationMarker className="text-brandTextSec text-[11px] sm:text-[13px] flex-shrink-0" />
+                          <span className="truncate">Location: {item.location}</span>
                         </p>
-                        <p className="text-brandAccent text-[11px] font-mono">Reported {item.date}</p>
+                        <p className="text-brandAccent text-[9px] sm:text-[11px] font-mono">Reported {item.date}</p>
                       </div>
                     </div>
 
                     {/* Action */}
-                    <div className="pt-4 border-t border-brandNavy/5 flex items-center justify-between">
-                      <span className="text-[10px] text-brandTextSec font-bold block uppercase tracking-wider">Campus Care</span>
+                    <div className="pt-2 sm:pt-4 border-t border-brandNavy/5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between mt-auto gap-1 sm:gap-2">
+                      <span className="text-[9px] sm:text-[10px] text-brandTextSec font-bold hidden sm:block uppercase tracking-wider">Campus Care</span>
                       <button
                         onClick={() => handleCopyContact(item.id + 10, item.contact)}
-                        className={`px-3 py-2 text-xs font-bold rounded-xl transition-all duration-300 flex items-center gap-1.5 border ${
+                        className={`w-full sm:w-auto px-2 sm:px-3 py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold rounded-lg sm:rounded-xl transition-all duration-300 flex items-center justify-center gap-1 sm:gap-1.5 border ${
                           copiedContact === item.id + 10 
                             ? 'bg-green-500 border-green-500 text-white'
                             : 'bg-brandBgSoft hover:bg-brandNavy hover:text-white text-brandNavy border-brandNavy/5'
                         }`}
                       >
-                        <FiPhone />
-                        <span>{copiedContact === item.id + 10 ? 'Copied!' : 'Contact'}</span>
+                        <FiPhone className="flex-shrink-0" />
+                        <span>{copiedContact === item.id + 10 ? 'Copied' : 'Contact'}</span>
                       </button>
                     </div>
 

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineX, HiOutlinePhotograph, HiOutlineTag, HiCheckCircle, HiXCircle } from 'react-icons/hi';
 import { useMarketplace } from '../../context/MarketplaceContext';
+import { useAuth } from '../../context/AuthContext';
 
 const CATEGORIES = ['Books', 'Study Materials', 'Furniture', 'Electronics', 'Kitchen Essentials', 'Room Essentials', 'Cycles', 'Others'];
 const CONDITIONS = ['New', 'Like New', 'Good', 'Fair'];
@@ -28,6 +29,7 @@ const inputCls = 'w-full text-sm text-brandNavy placeholder-brandTextSec/40 bg-b
 
 const SellItemModal = ({ isOpen, onClose }) => {
   const { addListing } = useMarketplace();
+  const { user } = useAuth();
 
   const [listingType, setListingType] = useState('sell');
   const [images, setImages] = useState([]);
@@ -37,16 +39,25 @@ const SellItemModal = ({ isOpen, onClose }) => {
   const [price, setPrice] = useState('');
   const [negotiable, setNegotiable] = useState(false);
   const [condition, setCondition] = useState('');
-  const [course, setCourse] = useState('');
+  const [course, setCourse] = useState(user?.course || '');
   const [pickupLocation, setPickupLocation] = useState('');
   const [availableUntil, setAvailableUntil] = useState('');
   const [preferredContact, setPreferredContact] = useState('WhatsApp');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState(user?.phone || '');
+  const [email, setEmail] = useState(user?.email || '');
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const fileRef = useRef();
+
+  // Reset form when modal opens with latest user data
+  React.useEffect(() => {
+    if (isOpen) {
+      setPhone(user?.phone || '');
+      setEmail(user?.email || '');
+      setCourse(user?.course || '');
+    }
+  }, [isOpen, user]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 4);
@@ -95,7 +106,7 @@ const SellItemModal = ({ isOpen, onClose }) => {
         pickupLocation: pickupLocation.trim(),
         availableUntil: availableUntil || 'Until further notice',
         preferredContact,
-        seller: { ...DUMMY_SELLER, phone: phone || DUMMY_SELLER.phone, email: email || DUMMY_SELLER.email },
+        seller: { ...(user || DUMMY_SELLER), phone: phone || user?.phone || DUMMY_SELLER.phone, email: email || user?.email || DUMMY_SELLER.email },
       });
 
       setSubmitting(false);
@@ -107,8 +118,8 @@ const SellItemModal = ({ isOpen, onClose }) => {
   const resetForm = () => {
     setListingType('sell'); setImages([]); setTitle(''); setCategory('');
     setDescription(''); setPrice(''); setNegotiable(false); setCondition('');
-    setCourse(''); setPickupLocation(''); setAvailableUntil('');
-    setPreferredContact('WhatsApp'); setPhone(''); setEmail(''); setErrors({});
+    setCourse(user?.course || ''); setPickupLocation(''); setAvailableUntil('');
+    setPreferredContact('WhatsApp'); setPhone(user?.phone || ''); setEmail(user?.email || ''); setErrors({});
   };
 
   return (

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { HiOutlinePhone } from 'react-icons/hi';
 import Logo from '../components/Logo';
 
+import { useAuth } from '../context/AuthContext';
+
 // Pixel-perfect SVG Indian Flag
 const IndianFlag = () => (
   <svg width="24" height="16" viewBox="0 0 3 2" className="rounded-sm shadow-sm select-none">
@@ -20,11 +22,13 @@ const IndianFlag = () => (
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('6361079075');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (phoneNumber.trim().length >= 10) {
-      // Simulate login
+      // Login with default dummy data or derived from phone if we had a backend
+      login({ phone: '+91 ' + phoneNumber });
       navigate('/');
     } else {
       alert('Please enter a valid phone number');

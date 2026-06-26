@@ -13,9 +13,10 @@ const LostFound = () => {
   const [search, setSearch] = useState('');
 
   const filteredItems = items.filter(item => 
-    item.itemName.toLowerCase().includes(search.toLowerCase()) || 
-    item.description.toLowerCase().includes(search.toLowerCase()) ||
-    item.foundLocation.toLowerCase().includes(search.toLowerCase())
+    item.status !== 'resolved' &&
+    (item.itemName.toLowerCase().includes(search.toLowerCase()) || 
+     item.description.toLowerCase().includes(search.toLowerCase()) ||
+     item.foundLocation.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (

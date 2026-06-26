@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineLogout, HiMenu, HiX, HiOutlineUserCircle } from 'react-icons/hi';
 import Logo from '../Logo';
-import { dummyStudent } from '../../data/mockData';
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,6 +11,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const { user, logout } = useAuth();
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -32,6 +33,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setIsDropdownOpen(false);
+    logout();
     navigate('/login');
   };
 
@@ -69,68 +71,79 @@ const Navbar = () => {
           })}
         </nav>
 
-        {/* Right: Avatar Dropdown */}
+        {/* Right: User Actions */}
         <div className="flex items-center gap-4">
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center gap-1.5 focus:outline-none p-0.5 rounded-full border-2 border-transparent hover:border-brandAccent transition-all duration-300"
-            >
-              <img
-                src={dummyStudent.avatar}
-                alt={dummyStudent.name}
-                className="w-10 h-10 rounded-full object-cover shadow-sm"
-              />
-            </button>
+          {user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-1.5 focus:outline-none p-0.5 rounded-full border-2 border-transparent hover:border-brandAccent transition-all duration-300"
+              >
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-full object-cover shadow-sm"
+                />
+              </button>
 
-            {/* Dropdown Menu */}
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-3 w-80 rounded-3xl glass-dropdown shadow-premium p-6 border border-brandNavy/10 z-50 text-left"
-                >
-                  {/* Student Info Card */}
-                  <div className="flex items-center gap-4 pb-5 border-b border-brandNavy/5">
-                    <img
-                      src={dummyStudent.avatar}
-                      alt={dummyStudent.name}
-                      className="w-14 h-14 rounded-full object-cover border-2 border-brandAccent/20"
-                    />
-                    <div>
-                      <h4 className="font-semibold text-brandNavy text-base leading-tight font-sans">
-                        {dummyStudent.name}
-                      </h4>
-                      <p className="text-xs text-brandTextSec mt-0.5">{dummyStudent.email}</p>
-                      <p className="text-xs text-brandTextSec font-mono mt-0.5">{dummyStudent.phone}</p>
+              {/* Dropdown Menu */}
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-3 w-80 rounded-3xl glass-dropdown shadow-premium p-6 border border-brandNavy/10 z-50 text-left"
+                  >
+                    {/* Student Info Card */}
+                    <div className="flex items-center gap-4 pb-5 border-b border-brandNavy/5">
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="w-14 h-14 rounded-full object-cover border-2 border-brandAccent/20"
+                      />
+                      <div className="min-w-0">
+                        <h4 className="font-semibold text-brandNavy text-base leading-tight font-sans truncate">
+                          {user.name}
+                        </h4>
+                        <p className="text-xs text-brandTextSec mt-0.5 truncate">{user.email}</p>
+                        <p className="text-xs text-brandTextSec font-mono mt-0.5 truncate">{user.phone}</p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Actions */}
-                  <div className="pt-4 flex flex-col gap-1.5">
-                    <Link
-                      to="/profile"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-brandNavy/5 text-[15px] text-brandNavy/95 font-medium transition-colors"
-                    >
-                      <HiOutlineUserCircle className="text-lg text-brandTextSec" />
-                      <span>Edit Profile</span>
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-red-50 text-[15px] text-red-600 font-medium transition-colors w-full text-left"
-                    >
-                      <HiOutlineLogout className="text-lg text-red-400" />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                    {/* Actions */}
+                    <div className="pt-4 flex flex-col gap-1.5">
+                      <Link
+                        to="/profile"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-brandNavy/5 text-[15px] text-brandNavy/95 font-medium transition-colors"
+                      >
+                        <HiOutlineUserCircle className="text-lg text-brandTextSec" />
+                        <span>My Profile</span>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-red-50 text-[15px] text-red-600 font-medium transition-colors w-full text-left"
+                      >
+                        <HiOutlineLogout className="text-lg text-red-400" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="hidden sm:flex items-center gap-3">
+              <Link to="/login" className="px-4 py-2 text-sm font-bold text-brandNavy hover:text-brandMedium transition-colors">
+                Login
+              </Link>
+              <Link to="/signup" className="px-5 py-2 text-sm font-bold bg-brandNavy text-white rounded-xl hover:bg-brandMedium transition-colors shadow-sm hover:-translate-y-0.5">
+                Sign Up
+              </Link>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <button
